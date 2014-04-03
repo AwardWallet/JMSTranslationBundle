@@ -72,7 +72,8 @@ class ApiController
 
         $this->updater->updateTranslation(
             $file, $format, $domain, $locale, $id,
-            $this->request->request->get('message')
+            $this->request->request->get('message'),
+            $this->request->request->get('meaning')
         );
 
         return new Response();
