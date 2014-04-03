@@ -10,7 +10,7 @@
         <source>Foo</source>
         <target state="new">Foo</target>
       </trans-unit>
-      <trans-unit id="5deead3ddeb268e61dbdf8809681afc61eabf8b4" resname="foo.bar.moo" extradata="Meaning: Bar">
+      <trans-unit id="5deead3ddeb268e61dbdf8809681afc61eabf8b4" resname="foo.bar.moo" extradata="Note: Bar">
         <source>foo.bar.moo</source>
         <target state="new">foo.bar.moo</target>
       </trans-unit>

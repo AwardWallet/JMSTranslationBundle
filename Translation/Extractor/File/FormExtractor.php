@@ -21,7 +21,7 @@ namespace JMS\TranslationBundle\Translation\Extractor\File;
 use JMS\TranslationBundle\Exception\RuntimeException;
 use JMS\TranslationBundle\Model\FileSource;
 use JMS\TranslationBundle\Model\Message;
-use JMS\TranslationBundle\Annotation\Meaning;
+use JMS\TranslationBundle\Annotation\Note;
 use JMS\TranslationBundle\Annotation\Desc;
 use JMS\TranslationBundle\Annotation\Ignore;
 use Doctrine\Common\Annotations\DocParser;
@@ -171,7 +171,7 @@ class FormExtractor implements FileVisitorInterface, \PHPParser_NodeVisitor
     {
         // get doc comment
         $ignore = false;
-        $desc = $meaning = null;
+        $desc = $note = null;
         $docComment = $item->key->getDocComment();
         $docComment = $docComment ? $docComment : $item->value->getDocComment();
         if ($docComment) {
@@ -180,8 +180,8 @@ class FormExtractor implements FileVisitorInterface, \PHPParser_NodeVisitor
                     $ignore = true;
                 } else if ($annot instanceof Desc) {
                     $desc = $annot->text;
-                } else if ($annot instanceof Meaning) {
-                    $meaning = $annot->text;
+                } else if ($annot instanceof Note) {
+                    $note = $annot->text;
                 }
             }
         }
@@ -209,14 +209,14 @@ class FormExtractor implements FileVisitorInterface, \PHPParser_NodeVisitor
                 'id' => $id,
                 'source' => $source,
                 'desc' => $desc,
-                'meaning' => $meaning
+                'note' => $note
             );
         } else {
-            $this->addToCatalogue($id, $source, $domain, $desc, $meaning);
+            $this->addToCatalogue($id, $source, $domain, $desc, $note);
         }
     }
 
-    private function addToCatalogue($id, $source, $domain = null, $desc = null, $meaning = null)
+    private function addToCatalogue($id, $source, $domain = null, $desc = null, $note = null)
     {
         if (null === $domain) {
             $message = new Message($id);
@@ -230,8 +230,8 @@ class FormExtractor implements FileVisitorInterface, \PHPParser_NodeVisitor
             $message->setDesc($desc);
         }
 
-        if ($meaning) {
-            $message->setMeaning($meaning);
+        if ($note) {
+            $message->setNote($note);
         }
 
         $this->catalogue->add($message);
@@ -245,7 +245,7 @@ class FormExtractor implements FileVisitorInterface, \PHPParser_NodeVisitor
 
         if ($this->defaultDomainMessages) {
             foreach ($this->defaultDomainMessages as $message) {
-                $this->addToCatalogue($message['id'], $message['source'], $this->defaultDomain, $message['desc'], $message['meaning']);
+                $this->addToCatalogue($message['id'], $message['source'], $this->defaultDomain, $message['desc'], $message['note']);
             }
         }
     }

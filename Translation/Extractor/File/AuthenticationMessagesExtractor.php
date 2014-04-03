@@ -21,7 +21,7 @@ namespace JMS\TranslationBundle\Translation\Extractor\File;
 use JMS\TranslationBundle\Exception\RuntimeException;
 use JMS\TranslationBundle\Model\FileSource;
 use JMS\TranslationBundle\Model\Message;
-use JMS\TranslationBundle\Annotation\Meaning;
+use JMS\TranslationBundle\Annotation\Note;
 use JMS\TranslationBundle\Annotation\Desc;
 use JMS\TranslationBundle\Annotation\Ignore;
 use JMS\TranslationBundle\Model\MessageCatalogue;
@@ -109,15 +109,15 @@ class AuthenticationMessagesExtractor implements LoggerAwareInterface, FileVisit
         }
 
         $ignore = false;
-        $desc = $meaning = null;
+        $desc = $note = null;
         if ($docComment = $node->getDocComment()) {
             foreach ($this->docParser->parse($docComment, 'file '.$this->file.' near line '.$node->getLine()) as $annot) {
                 if ($annot instanceof Ignore) {
                     $ignore = true;
                 } else if ($annot instanceof Desc) {
                     $desc = $annot->text;
-                } else if ($annot instanceof Meaning) {
-                    $meaning = $annot->text;
+                } else if ($annot instanceof Note) {
+                    $note = $annot->text;
                 }
             }
         }
@@ -139,7 +139,7 @@ class AuthenticationMessagesExtractor implements LoggerAwareInterface, FileVisit
 
         $message = Message::create($node->expr->value, $this->domain)
             ->setDesc($desc)
-            ->setMeaning($meaning)
+            ->setNote($note)
             ->addSource(new FileSource((string) $this->file, $node->expr->getLine()))
         ;
 

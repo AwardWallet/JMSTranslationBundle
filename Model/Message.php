@@ -36,8 +36,8 @@ class Message
 
     private $localeString;
 
-    /** Additional information about the intended meaning */
-    private $meaning;
+    /** Additional information about the intended note */
+    private $note;
 
     /** The description/sample for translators */
     private $desc;
@@ -132,9 +132,9 @@ class Message
         return $this->desc ?: $this->id;
     }
 
-    public function getMeaning()
+    public function getNote()
     {
-        return $this->meaning;
+        return $this->note;
     }
 
     public function getDesc()
@@ -147,9 +147,9 @@ class Message
         return $this->sources;
     }
 
-    public function setMeaning($meaning)
+    public function setNote($note)
     {
-        $this->meaning = $meaning;
+        $this->note = $note;
 
         return $this;
     }
@@ -190,8 +190,8 @@ class Message
             throw new RuntimeException(sprintf('You can only merge messages with the same id. Expected id "%s", but got "%s".', $this->id, $message->getId()));
         }
 
-        if (null !== $meaning = $message->getMeaning()) {
-            $this->meaning = $meaning;
+        if (null !== $note = $message->getNote()) {
+            $this->note = $note;
         }
 
         if (null !== $desc = $message->getDesc()) {
@@ -222,8 +222,8 @@ class Message
             throw new RuntimeException(sprintf('You can only merge messages with the same id. Expected id "%s", but got "%s".', $this->id, $message->getId()));
         }
 
-        if (null !== $meaning = $message->getMeaning()) {
-            $this->meaning = $meaning;
+        if (null !== $note = $message->getNote()) {
+            $this->note = $note;
         }
 
         if (null !== $desc = $message->getDesc()) {

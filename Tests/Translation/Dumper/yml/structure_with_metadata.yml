@@ -3,7 +3,7 @@ foo:
         # Desc: Foo
         baz: Foo   # FIXME
 
-        # Meaning: Bar
+        # Note: Bar
         moo: foo.bar.moo   # FIXME
 
     baz: foo.baz   # FIXME

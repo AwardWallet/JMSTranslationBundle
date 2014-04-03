@@ -25,7 +25,7 @@ use JMS\TranslationBundle\Model\MessageCatalogue;
  * Writes translation files.
  *
  * This implementation is a bit more advanced than that of the Translation component
- * in that it may also write the description, meaning and occurrences of translation
+ * in that it may also write the description, note and occurrences of translation
  * ids.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>

@@ -42,7 +42,7 @@ abstract class BaseDumperTest extends \PHPUnit_Framework_TestCase
 
         $message = new Message('foo');
         $message->setDesc('bar');
-        $message->setMeaning('baz');
+        $message->setNote('baz');
         $catalogue->add($message);
 
         $this->assertEquals($this->getOutput('with_metadata'), $this->dump($catalogue, 'messages'));
@@ -71,7 +71,7 @@ abstract class BaseDumperTest extends \PHPUnit_Framework_TestCase
         $catalogue->add($message);
 
         $message = new Message('foo.bar.moo');
-        $message->setMeaning('Bar');
+        $message->setNote('Bar');
         $catalogue->add($message);
 
         $message = new Message('foo.baz');

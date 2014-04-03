@@ -17,12 +17,12 @@ Abstract keys are used for two main reasons:
    lost in the process.
 
 #. Some words in English (or whatever your source language is) are spelled 
-   differently in other languages depending on their meaning. Let's take the 
+   differently in other languages depending on their note. Let's take the
    English word "Archive" as an example. This can be a noun ("The Archive"), 
    and also a verb ("to archive"). In German, these are two different words
    "Archiv" for the noun, and "Archivieren" for the verb. If you were using
    the source message as id, you could not use the word "Archiv" with different
-   meanings on your site as you could only either translate it to the German
+   notes on your site as you could only either translate it to the German
    "Archiv", or "Archivieren", but not both.
 
 Whereas abstract keys do not suffer from these limitations, they come with some

@@ -106,7 +106,7 @@
             <call method="setImports">
                 <argument type="collection">
                     <argument key="desc">JMS\TranslationBundle\Annotation\Desc</argument>
-                    <argument key="meaning">JMS\TranslationBundle\Annotation\Meaning</argument>
+                    <argument key="note">JMS\TranslationBundle\Annotation\Note</argument>
                     <argument key="ignore">JMS\TranslationBundle\Annotation\Ignore</argument>
                 </argument>
             </call>

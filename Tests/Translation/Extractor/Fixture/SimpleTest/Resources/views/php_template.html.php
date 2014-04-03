@@ -2,6 +2,6 @@
 
 <?php /** @Desc("Bar") */ $view['translation']->trans('php.bar') ?>
 
-<?php /** @Meaning("Baz") */ $view['translation']->trans('php.baz') ?>
+<?php /** @Note("Baz") */ $view['translation']->trans('php.baz') ?>
 
-<?php /** @Desc("Foo") @Meaning("Bar") */ $view['translation']->trans('php.foo_bar') ?>
+<?php /** @Desc("Foo") @Note("Bar") */ $view['translation']->trans('php.foo_bar') ?>

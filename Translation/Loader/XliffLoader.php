@@ -66,12 +66,12 @@ class XliffLoader implements LoaderInterface
                 }
             }
 
-            if ($meaning = (string) $trans->attributes()->extradata) {
-                if (0 === strpos($meaning, 'Meaning: ')) {
-                    $meaning = substr($meaning, 9);
+            if ($note = (string) $trans->attributes()->extradata) {
+                if (0 === strpos($note, 'Note: ')) {
+                    $note = substr($note, 9);
                 }
 
-                $m->setMeaning($meaning);
+                $m->setNote($note);
             }
 
             if (!($state = (string) $trans->target->attributes()->state) || 'new' !== $state) {

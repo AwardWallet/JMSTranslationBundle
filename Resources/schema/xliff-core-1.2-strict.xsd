@@ -549,7 +549,7 @@ Jan-10-2006
       </xsd:enumeration>
       <xsd:enumeration value="phraseological-unit">
         <xsd:annotation>
-          <xsd:documentation>ISO-12620 2.1.18: Any group of two or more words that form a unit, the meaning of which frequently cannot be deduced based on the combined sense of the words making up the phrase.</xsd:documentation>
+          <xsd:documentation>ISO-12620 2.1.18: Any group of two or more words that form a unit, the note of which frequently cannot be deduced based on the combined sense of the words making up the phrase.</xsd:documentation>
         </xsd:annotation>
       </xsd:enumeration>
       <xsd:enumeration value="protected">

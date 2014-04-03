@@ -51,17 +51,17 @@ class PhpDumper extends ArrayStructureDumper
         foreach ($structure as $k => $v) {
             if ($isMessage = $v instanceof Message) {
                 $desc = $v->getDesc();
-                $meaning = $v->getMeaning();
+                $note = $v->getNote();
 
-                if (!$isFirst && (!$precededByMessage || $desc || $meaning)) {
+                if (!$isFirst && (!$precededByMessage || $desc || $note)) {
                     $this->writer->write("\n");
                 }
 
                 if ($desc) {
                     $this->writer->writeln('// Desc: '.$desc);
                 }
-                if ($meaning) {
-                    $this->writer->writeln('// Meaning: '.$meaning);
+                if ($note) {
+                    $this->writer->writeln('// Note: '.$note);
                 }
             } else if (!$isFirst) {
                 $this->writer->write("\n");

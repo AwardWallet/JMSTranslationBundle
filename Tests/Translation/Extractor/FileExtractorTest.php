@@ -66,13 +66,13 @@ class FileExtractorTest extends \PHPUnit_Framework_TestCase
             $expected[$engine.'.bar'] = $message;
 
             $message = new Message($engine.'.baz');
-            $message->setMeaning('Baz');
+            $message->setNote('Baz');
             $message->addSource(new FileSource($basePath.'Resources/views/'.$engine.'_template.html.'.$engine, 5));
             $expected[$engine.'.baz'] = $message;
 
             $message = new Message($engine.'.foo_bar');
             $message->setDesc('Foo');
-            $message->setMeaning('Bar');
+            $message->setNote('Bar');
             $message->addSource(new FileSource($basePath.'Resources/views/'.$engine.'_template.html.'.$engine, 7));
             $expected[$engine.'.foo_bar'] = $message;
         }
@@ -96,7 +96,7 @@ class FileExtractorTest extends \PHPUnit_Framework_TestCase
         $docParser = new DocParser();
         $docParser->setImports(array(
                         'desc' => 'JMS\TranslationBundle\Annotation\Desc',
-                        'meaning' => 'JMS\TranslationBundle\Annotation\Meaning',
+                        'note' => 'JMS\TranslationBundle\Annotation\Note',
                         'ignore' => 'JMS\TranslationBundle\Annotation\Ignore',
         ));
         $docParser->setIgnoreNotImportedAnnotations(true);

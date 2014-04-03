@@ -14,13 +14,13 @@
             {% if isWriteable is sameas(true) %}
             $('textarea')
                     .change(function () {
-                        var meaning = $(this).parent().find('.meaning').val();
+                        var note = $(this).parent().find('.note').val();
                         var el = $(this).closest('tr');
 
                         $.ajax(updateMessagePath + '?id=' + encodeURIComponent(el.data('id')), {
                             type: 'POST',
                             headers: {'X-HTTP-METHOD-OVERRIDE': 'PUT'},
-                            data: {'_method': 'PUT', 'message': el.find('.trans').val(), 'meaning': el.find('.meaning').val()},
+                            data: {'_method': 'PUT', 'message': el.find('.trans').val(), 'note': el.find('.note').val()},
                             error: function () {
                                 $('#save-indicator').text('Error! The translation is not saved!');
                             },

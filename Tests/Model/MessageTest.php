@@ -66,13 +66,13 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $message->getDesc());
     }
 
-    public function testGetMeaning()
+    public function testGetNote()
     {
         $message = new Message('foo');
-        $this->assertNull($message->getMeaning());
+        $this->assertNull($message->getNote());
 
-        $this->assertSame($message, $message->setMeaning('foo'));
-        $this->assertEquals('foo', $message->getMeaning());
+        $this->assertSame($message, $message->setNote('foo'));
+        $this->assertEquals('foo', $message->getNote());
     }
 
     public function testGetSources()
@@ -88,7 +88,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     {
         $message = new Message('foo');
         $message->setDesc('foo');
-        $message->setMeaning('foo');
+        $message->setNote('foo');
         $message->addSource($s1 = $this->getMock('JMS\TranslationBundle\Model\SourceInterface'));
 
         $message2 = new Message('foo');
@@ -98,7 +98,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $message->merge($message2);
 
         $this->assertEquals('bar', $message->getDesc());
-        $this->assertEquals('foo', $message->getMeaning());
+        $this->assertEquals('foo', $message->getNote());
         $this->assertSame(array($s1, $s2), $message->getSources());
     }
 

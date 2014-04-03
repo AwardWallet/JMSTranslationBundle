@@ -115,8 +115,8 @@ class XliffDumper implements DumperInterface
                 }
             }
 
-            if ($meaning = $message->getMeaning()) {
-                $unit->setAttribute('extradata', 'Meaning: '.$meaning);
+            if ($note = $message->getNote()) {
+                $unit->setAttribute('extradata', 'Note: '.$note);
             }
 
             $unit->appendChild($source = $doc->createElement('source'));

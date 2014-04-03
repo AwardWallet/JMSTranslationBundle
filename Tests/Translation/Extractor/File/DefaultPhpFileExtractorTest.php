@@ -46,7 +46,7 @@ class DefaultPhpFileExtractorTest extends BasePhpFileExtractorTest
 
         $message = new Message('button.archive');
         $message->setDesc('Archive Message');
-        $message->setMeaning('The verb (to archive), describes an action');
+        $message->setNote('The verb (to archive), describes an action');
         $message->addSource(new FileSource($path, 59));
         $expected->add($message);
 

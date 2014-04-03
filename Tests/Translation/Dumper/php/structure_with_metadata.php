@@ -5,7 +5,7 @@ return array(
             // Desc: Foo
             'baz' => 'Foo', // FIXME
 
-            // Meaning: Bar
+            // Note: Bar
             'moo' => 'foo.bar.moo', // FIXME
         ),
 

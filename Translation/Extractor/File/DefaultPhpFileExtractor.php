@@ -22,7 +22,7 @@ use JMS\TranslationBundle\Exception\RuntimeException;
 use Doctrine\Common\Annotations\DocParser;
 use JMS\TranslationBundle\Model\FileSource;
 use JMS\TranslationBundle\Model\Message;
-use JMS\TranslationBundle\Annotation\Meaning;
+use JMS\TranslationBundle\Annotation\Note;
 use JMS\TranslationBundle\Annotation\Desc;
 use JMS\TranslationBundle\Annotation\Ignore;
 use JMS\TranslationBundle\Translation\Extractor\FileVisitorInterface;
@@ -73,15 +73,15 @@ class DefaultPhpFileExtractor implements LoggerAwareInterface, FileVisitorInterf
         }
 
         $ignore = false;
-        $desc = $meaning = null;
+        $desc = $note = null;
         if (null !== $docComment = $this->getDocCommentForNode($node)) {
             foreach ($this->docParser->parse($docComment, 'file '.$this->file.' near line '.$node->getLine()) as $annot) {
                 if ($annot instanceof Ignore) {
                     $ignore = true;
                 } else if ($annot instanceof Desc) {
                     $desc = $annot->text;
-                } else if ($annot instanceof Meaning) {
-                    $meaning = $annot->text;
+                } else if ($annot instanceof Note) {
+                    $note = $annot->text;
                 }
             }
         }
@@ -127,7 +127,7 @@ class DefaultPhpFileExtractor implements LoggerAwareInterface, FileVisitorInterf
 
         $message = new Message($id, $domain);
         $message->setDesc($desc);
-        $message->setMeaning($meaning);
+        $message->setNote($note);
         $message->addSource(new FileSource((string) $this->file, $node->getLine()));
 
         $this->catalogue->add($message);

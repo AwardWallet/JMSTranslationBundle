@@ -48,7 +48,7 @@ class TwigFileExtractorTest extends \PHPUnit_Framework_TestCase
 
         $message = new Message('text.foo');
         $message->setDesc('Foo Bar');
-        $message->setMeaning('Some Meaning');
+        $message->setNote('Some Note');
         $message->addSource(new FileSource($path, 1));
         $expected->add($message);
 
@@ -58,7 +58,7 @@ class TwigFileExtractorTest extends \PHPUnit_Framework_TestCase
         $expected->add($message);
 
         $message = new Message('text.baz');
-        $message->setMeaning('Bar');
+        $message->setNote('Bar');
         $message->addSource(new FileSource($path, 5));
         $expected->add($message);
 
@@ -108,7 +108,7 @@ class TwigFileExtractorTest extends \PHPUnit_Framework_TestCase
 
         $message = new Message("text.archive");
         $message->setDesc('Archive');
-        $message->setMeaning('The verb');
+        $message->setNote('The verb');
         $message->addSource(new FileSource($path, 13));
         $expected->add($message);
 

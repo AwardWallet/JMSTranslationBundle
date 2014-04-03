@@ -25,7 +25,7 @@ use JMS\TranslationBundle\Exception\RuntimeException;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-final class Meaning
+final class Note
 {
     /** @var string @Required */
     public $text;
@@ -42,7 +42,7 @@ final class Meaning
         }
 
         if (!isset($values['text'])) {
-            throw new RuntimeException(sprintf('The "text" attribute for annotation "@Meaning" must be set.'));
+            throw new RuntimeException(sprintf('The "text" attribute for annotation "@Note" must be set.'));
         }
 
         $this->text = $values['text'];

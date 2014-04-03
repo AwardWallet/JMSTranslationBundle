@@ -25,7 +25,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  * This is a sample controller class.
  *
  * It is used in unit tests to extract translations, and their respective description,
- * and meaning if specified.
+ * and note if specified.
  *
  * @author johannes
  */
@@ -55,7 +55,7 @@ class Controller
     public function foobarAction()
     {
         $this->session->setFlash('archive',
-            /** @Desc("Archive Message") @Meaning("The verb (to archive), describes an action") */
+            /** @Desc("Archive Message") @Note("The verb (to archive), describes an action") */
             $this->translator->trans('button.archive'));
     }
 

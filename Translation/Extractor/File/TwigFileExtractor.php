@@ -88,7 +88,7 @@ class TwigFileExtractor implements FileVisitorInterface, \Twig_NodeVisitorInterf
                     }
 
                     $name = $this->stack[$i]->getNode('filter')->getAttribute('value');
-                    if ('desc' === $name || 'meaning' === $name) {
+                    if ('desc' === $name || 'note' === $name) {
                         $arguments = $this->stack[$i]->getNode('arguments');
                         if (!$arguments->hasNode(0)) {
                             throw new RuntimeException(sprintf('The "%s" filter requires exactly one argument, the description text.', $name));
