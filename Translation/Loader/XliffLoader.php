@@ -68,7 +68,7 @@ class XliffLoader implements LoaderInterface
 
             if ($note = (string) $trans->attributes()->extradata) {
                 if (0 === strpos($note, 'Note: ')) {
-                    $note = substr($note, 9);
+                    $note = substr($note, 6);
                 }
 
                 $m->setNote($note);

@@ -115,7 +115,7 @@ class TranslateController
             $existingMessages[$id] = $message;
         }
 
-        return array(
+        $data = array(
             'selectedConfig' => $config,
             'configs' => $configs,
             'selectedDomain' => $domain,
@@ -130,5 +130,7 @@ class TranslateController
             'file' => (string) $files[$domain][$locale][1],
             'sourceLanguage' => $this->sourceLanguage,
         );
+
+        return $data;
     }
 }
