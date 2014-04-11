@@ -115,10 +115,6 @@ class XliffDumper implements DumperInterface
                 }
             }
 
-            if ($note = $message->getNote()) {
-                $unit->setAttribute('extradata', 'Note: '.$note);
-            }
-
             $unit->appendChild($source = $doc->createElement('source'));
             if (preg_match('/[<>&]/', $message->getSourceString())) {
                 $source->appendChild($doc->createCDATASection($message->getSourceString()));
@@ -131,6 +127,11 @@ class XliffDumper implements DumperInterface
                 $target->appendChild($doc->createCDATASection($message->getLocaleString()));
             } else {
                 $target->appendChild($doc->createTextNode($message->getLocaleString()));
+            }
+
+            if ($note = $message->getNote()) {
+                $unit->appendChild($note = $doc->createElement('note'));
+                $note->appendChild($doc->createTextNode($message->getNote()));
             }
 
             if ($message->isNew()) {

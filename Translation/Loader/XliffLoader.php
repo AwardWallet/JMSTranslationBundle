@@ -51,7 +51,7 @@ class XliffLoader implements LoaderInterface
             $m = Message::create($id, $domain)
                     ->setDesc((string) $trans->source)
                     ->setLocaleString((string) $trans->target)
-            ;
+                    ->setNote((string) $trans->note);
             $catalogue->add($m);
 
             if ($hasReferenceFiles) {
@@ -66,13 +66,13 @@ class XliffLoader implements LoaderInterface
                 }
             }
 
-            if ($note = (string) $trans->attributes()->extradata) {
-                if (0 === strpos($note, 'Note: ')) {
-                    $note = substr($note, 6);
-                }
-
-                $m->setNote($note);
-            }
+//            if ($note = (string) $trans->attributes()->extradata) {
+//                if (0 === strpos($note, 'Note: ')) {
+//                    $note = substr($note, 6);
+//                }
+//
+//                $m->setNote($note);
+//            }
 
             if (!($state = (string) $trans->target->attributes()->state) || 'new' !== $state) {
                 $m->setNew(false);
