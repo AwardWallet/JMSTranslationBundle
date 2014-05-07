@@ -80,8 +80,8 @@ class Message
      */
     public function __construct($id, $domain = 'messages')
     {
-        $this->id = $id;
-        $this->domain = $domain;
+        $this->id = trim($id);
+        $this->domain = trim($domain);
     }
 
     /**
@@ -149,7 +149,7 @@ class Message
 
     public function setNote($note)
     {
-        $this->note = $note;
+        $this->note = trim($note);
 
         return $this;
     }
@@ -163,7 +163,7 @@ class Message
 
     public function setDesc($desc)
     {
-        $this->desc = $desc;
+        $this->desc = trim($desc);
 
         return $this;
     }
