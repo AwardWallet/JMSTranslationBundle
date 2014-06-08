@@ -18,9 +18,11 @@
 
 namespace JMS\TranslationBundle\Translation\Dumper;
 
+use JMS\TranslationBundle\Exception\RuntimeException;
 use JMS\TranslationBundle\Model\FileSource;
 use JMS\TranslationBundle\JMSTranslationBundle;
 use JMS\TranslationBundle\Model\MessageCatalogue;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
  * XLIFF dumper.
@@ -91,6 +93,20 @@ class XliffDumper implements DumperInterface
         $file->appendChild($body = $doc->createElement('body'));
 
         foreach ($catalogue->getDomain($domain)->all() as $id => $message) {
+
+            if (preg_match("/[\w.]+/", $id)) {
+                $files = [];
+                foreach($message->getSources() as $source) {
+                    if ($source instanceof FileSource) {
+                        $files[] = $source->getPath() . ':' . $source->getLine();
+                    } else {
+                        $files[] = (string) $source;
+                    }
+                }
+                $files = implode(', ', $files);
+                throw new RuntimeException(sprintf("You can not use text keys! Use dot-delimitted keys! Key: '%s', Files: '%s'", $id, $files));
+            };
+
             $body->appendChild($unit = $doc->createElement('trans-unit'));
             $unit->setAttribute('id', hash('sha1', $id));
             $unit->setAttribute('resname', $id);
@@ -113,6 +129,10 @@ class XliffDumper implements DumperInterface
 
                     $unit->appendChild($doc->createElementNS('jms:reference', (string) $source));
                 }
+            }
+
+            if ($catalogue->getLocale() == 'en' && ($message->getSourceString() != $message->getLocaleString())) {
+                $message->setSourceString($message->getLocaleString());
             }
 
             $unit->appendChild($source = $doc->createElement('source'));
