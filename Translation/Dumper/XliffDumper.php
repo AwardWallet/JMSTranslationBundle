@@ -21,6 +21,7 @@ namespace JMS\TranslationBundle\Translation\Dumper;
 use JMS\TranslationBundle\Exception\RuntimeException;
 use JMS\TranslationBundle\Model\FileSource;
 use JMS\TranslationBundle\JMSTranslationBundle;
+use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Model\MessageCatalogue;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
@@ -92,20 +93,20 @@ class XliffDumper implements DumperInterface
 
         $file->appendChild($body = $doc->createElement('body'));
 
-        foreach ($catalogue->getDomain($domain)->all() as $id => $message) {
+        foreach ($catalogue->getDomain($domain)->all() as $id => /** @var Message $message */$message) {
 
-            if (preg_match("/[\w.]+/", $id)) {
-                $files = [];
-                foreach($message->getSources() as $source) {
-                    if ($source instanceof FileSource) {
-                        $files[] = $source->getPath() . ':' . $source->getLine();
-                    } else {
-                        $files[] = (string) $source;
-                    }
-                }
-                $files = implode(', ', $files);
-                throw new RuntimeException(sprintf("You can not use text keys! Use dot-delimitted keys! Key: '%s', Files: '%s'", $id, $files));
-            };
+//            if (preg_match("/[\w.]+/", $id)) {
+//                $files = [];
+//                foreach($message->getSources() as $source) {
+//                    if ($source instanceof FileSource) {
+//                        $files[] = $source->getPath() . ':' . $source->getLine();
+//                    } else {
+//                        $files[] = (string) $source;
+//                    }
+//                }
+//                $files = implode(', ', $files);
+//                throw new RuntimeException(sprintf("You can not use text keys! Use dot-delimitted keys! Key: '%s', Files: '%s'", $id, $files));
+//            };
 
             $body->appendChild($unit = $doc->createElement('trans-unit'));
             $unit->setAttribute('id', hash('sha1', $id));
@@ -132,7 +133,7 @@ class XliffDumper implements DumperInterface
             }
 
             if ($catalogue->getLocale() == 'en' && ($message->getSourceString() != $message->getLocaleString())) {
-                $message->setSourceString($message->getLocaleString());
+                $message->setDesc($message->getLocaleString());
             }
 
             $unit->appendChild($source = $doc->createElement('source'));
