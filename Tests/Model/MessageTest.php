@@ -102,6 +102,25 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array($s1, $s2), $message->getSources());
     }
 
+    public function testMergeRememberDesc()
+    {
+        $message = new Message('foo_id');
+        $message->setDesc('foo_desc');
+        $message->setNote('foo_note');
+        $message->addSource($s1 = $this->getMock('JMS\TranslationBundle\Model\SourceInterface'));
+
+        $message2 = new Message('foo_id');
+        $message2->setNote('bar_note');
+        $message2->addSource($s2 = $this->getMock('JMS\TranslationBundle\Model\SourceInterface'));
+
+        $message->merge($message2);
+
+        $this->assertEquals('foo_desc', $message->getDesc());
+        $this->assertEquals('foo_desc', $message->getLocaleString());
+        $this->assertEquals('bar_note', $message->getNote());
+        $this->assertSame(array($s1, $s2), $message->getSources());
+    }
+
     public function testMergeExisting()
     {
         $message = new Message('foo');
@@ -151,5 +170,19 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
         $message->addSource($s1);
         $this->assertTrue($message->hasSource($s2));
+    }
+
+    public function testGetLocaleString()
+    {
+        $message = new Message('foo');
+        $message->setDesc('bar');
+        $message->setNew(true);
+
+        $existingMessage = new Message('foo');
+        $existingMessage->setDesc('bar');
+        $existingMessage->setNew(false);
+
+        $this->assertEquals($message->getDesc(), $message->getLocaleString());
+        $this->assertEquals('', $existingMessage->getLocaleString());
     }
 }

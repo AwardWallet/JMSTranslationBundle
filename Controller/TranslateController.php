@@ -74,6 +74,9 @@ class TranslateController
         }
 
         $locales = array_keys($files[$domain]);
+        
+        natsort($locales);
+        
         if ((!$locale = $this->request->query->get('locale')) || !isset($files[$domain][$locale])) {
             $locale = reset($locales);
         }
@@ -115,7 +118,7 @@ class TranslateController
             $existingMessages[$id] = $message;
         }
 
-        $data = array(
+        return array(
             'selectedConfig' => $config,
             'configs' => $configs,
             'selectedDomain' => $domain,
@@ -130,7 +133,5 @@ class TranslateController
             'file' => (string) $files[$domain][$locale][1],
             'sourceLanguage' => $this->sourceLanguage,
         );
-
-        return $data;
     }
 }

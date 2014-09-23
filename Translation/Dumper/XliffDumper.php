@@ -93,7 +93,8 @@ class XliffDumper implements DumperInterface
 
         $file->appendChild($body = $doc->createElement('body'));
 
-        foreach ($catalogue->getDomain($domain)->all() as $id => /** @var Message $message */$message) {
+	    /** @var Message $message */
+	    foreach ($catalogue->getDomain($domain)->all() as $id => $message) {
 
 //            if (preg_match("/[\w.]+/", $id)) {
 //                $files = [];
@@ -112,6 +113,34 @@ class XliffDumper implements DumperInterface
             $unit->setAttribute('id', hash('sha1', $id));
             $unit->setAttribute('resname', $id);
 
+            $unit->appendChild($source = $doc->createElement('source'));
+            if (preg_match('/[<>&]/', $message->getSourceString())) {
+                $source->appendChild($doc->createCDATASection($message->getSourceString()));
+            } else {
+                $source->appendChild($doc->createTextNode($message->getSourceString()));
+            }
+
+            $unit->appendChild($target = $doc->createElement('target'));
+            if (preg_match('/[<>&]/', $message->getLocaleString())) {
+                $target->appendChild($doc->createCDATASection($message->getLocaleString()));
+            } else {
+                $target->appendChild($doc->createTextNode($message->getLocaleString()));
+            }
+
+		    if ($note = $message->getNote()) {
+			    $unit->appendChild($note = $doc->createElement('note'));
+			    $note->appendChild($doc->createTextNode($message->getNote()));
+		    }
+
+		    if ($message->isNew()) {
+                $target->setAttribute('state', 'new');
+            }
+
+		    if ($catalogue->getLocale() == 'en' && ($message->getSourceString() != $message->getLocaleString())) {
+			    $message->setDesc($message->getLocaleString());
+		    }
+
+            // As per the OASIS XLIFF 1.2 non-XLIFF elements must be at the end of the <trans-unit>
             if ($sources = $message->getSources()) {
                 foreach ($sources as $source) {
                     if ($source instanceof FileSource) {
@@ -132,32 +161,6 @@ class XliffDumper implements DumperInterface
                 }
             }
 
-            if ($catalogue->getLocale() == 'en' && ($message->getSourceString() != $message->getLocaleString())) {
-                $message->setDesc($message->getLocaleString());
-            }
-
-            $unit->appendChild($source = $doc->createElement('source'));
-            if (preg_match('/[<>&]/', $message->getSourceString())) {
-                $source->appendChild($doc->createCDATASection($message->getSourceString()));
-            } else {
-                $source->appendChild($doc->createTextNode($message->getSourceString()));
-            }
-
-            $unit->appendChild($target = $doc->createElement('target'));
-            if (preg_match('/[<>&]/', $message->getLocaleString())) {
-                $target->appendChild($doc->createCDATASection($message->getLocaleString()));
-            } else {
-                $target->appendChild($doc->createTextNode($message->getLocaleString()));
-            }
-
-            if ($note = $message->getNote()) {
-                $unit->appendChild($note = $doc->createElement('note'));
-                $note->appendChild($doc->createTextNode($message->getNote()));
-            }
-
-            if ($message->isNew()) {
-                $target->setAttribute('state', 'new');
-            }
         }
 
         return $doc->saveXML();

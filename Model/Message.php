@@ -116,7 +116,7 @@ class Message
 
     public function getLocaleString()
     {
-        return $this->localeString !== null ? $this->localeString : ($this->desc !== null ? $this->desc : $this->id);
+        return $this->localeString !== null ? $this->localeString : ($this->new ? ($this->desc !== null ? $this->desc : $this->id) : '');
     }
 
     /**
@@ -196,6 +196,10 @@ class Message
 
         if (null !== $desc = $message->getDesc()) {
             $this->desc = $desc;
+            $this->localeString = null;
+            if ($localeString = $message->getLocaleString()) {
+                $this->localeString = $localeString;
+            }
         }
 
         foreach ($message->getSources() as $source) {
@@ -203,9 +207,6 @@ class Message
         }
 
         $this->new = $message->isNew();
-        if ($localeString = $message->getLocaleString()) {
-            $this->localeString = $localeString;
-        }
     }
 
     /**
