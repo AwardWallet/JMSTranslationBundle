@@ -50,7 +50,19 @@ class TwigFileExtractor implements FileVisitorInterface, \Twig_NodeVisitorInterf
                 $domain = $domainNode->getAttribute('value');
             }
 
+            if ($node->hasNode('key')) {
+                if (null !== ($keyNode = $node->getNode('key'))
+                    && $keyNode->hasAttribute('value') && null !== ($keyValue = $keyNode->getAttribute('value')))
+                {
+                    $desc = $id;
+                    $id = $keyValue;
+                }
+            }
+
             $message = new Message($id, $domain);
+            if (isset($desc)) {
+                $message->setDesc($desc);
+            }
             $message->addSource(new FileSource((string) $this->file, $node->getLine()));
             $this->catalogue->add($message);
         } else if ($node instanceof \Twig_Node_Expression_Filter) {
