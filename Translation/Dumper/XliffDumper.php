@@ -113,11 +113,16 @@ class XliffDumper implements DumperInterface
             $unit->setAttribute('id', hash('sha1', $id));
             $unit->setAttribute('resname', $id);
 
+            $src = $message->getSourceString();
+            if ($catalogue->getLocale() == 'en' && ($src !== $message->getLocaleString())) {
+                $src = $message->getLocaleString();
+            }
+
             $unit->appendChild($source = $doc->createElement('source'));
             if (preg_match('/[<>&]/', $message->getSourceString())) {
-                $source->appendChild($doc->createCDATASection($message->getSourceString()));
+                $source->appendChild($doc->createCDATASection($src));
             } else {
-                $source->appendChild($doc->createTextNode($message->getSourceString()));
+                $source->appendChild($doc->createTextNode($src));
             }
 
             $unit->appendChild($target = $doc->createElement('target'));
@@ -135,10 +140,6 @@ class XliffDumper implements DumperInterface
 		    if ($message->isNew()) {
                 $target->setAttribute('state', 'new');
             }
-
-		    if ($catalogue->getLocale() == 'en' && ($message->getSourceString() != $message->getLocaleString())) {
-			    $message->setDesc($message->getLocaleString());
-		    }
 
             // As per the OASIS XLIFF 1.2 non-XLIFF elements must be at the end of the <trans-unit>
             if ($sources = $message->getSources()) {
