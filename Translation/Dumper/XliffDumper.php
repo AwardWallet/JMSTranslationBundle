@@ -143,22 +143,17 @@ class XliffDumper implements DumperInterface
 
             // As per the OASIS XLIFF 1.2 non-XLIFF elements must be at the end of the <trans-unit>
             if ($sources = $message->getSources()) {
+                $sourcesPaths = [];
+
                 foreach ($sources as $source) {
                     if ($source instanceof FileSource) {
-                        $unit->appendChild($refFile = $doc->createElement('jms:reference-file', $source->getPath()));
-
-                        if ($source->getLine()) {
-                            $refFile->setAttribute('line', $source->getLine());
+                        if (!isset($sourcesPaths[$sourcePath = $source->getPath()])) {
+                            $sourcesPaths[$sourcePath] = $source;
+                            $unit->appendChild($doc->createElement('jms:reference-file', $source->getPath()));
                         }
-
-                        if ($source->getColumn()) {
-                            $refFile->setAttribute('column', $source->getColumn());
-                        }
-
-                        continue;
+                    } else {
+                        $unit->appendChild($doc->createElementNS('jms:reference', (string) $source));
                     }
-
-                    $unit->appendChild($doc->createElementNS('jms:reference', (string) $source));
                 }
             }
 
