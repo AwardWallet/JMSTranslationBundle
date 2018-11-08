@@ -22,7 +22,6 @@ use JMS\TranslationBundle\Exception\RuntimeException;
 use JMS\TranslationBundle\Translation\ConfigFactory;
 use JMS\TranslationBundle\Translation\LoaderManager;
 use JMS\TranslationBundle\Util\FileUtils;
-use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,26 +31,36 @@ use Symfony\Component\Translation\MessageCatalogue;
  * Translate Controller.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ *
+ * @Route(service="jms_translation.controller.translate")
  */
 class TranslateController
 {
     /**
-     * @DI\Inject("jms_translation.config_factory")
      * @var ConfigFactory
      */
     private $configFactory;
 
     /**
-     * @DI\Inject("jms_translation.loader_manager")
      * @var LoaderManager
      */
     private $loader;
 
     /**
-     * @DI\Inject("%jms_translation.source_language%")
      * @var string
      */
     private $sourceLanguage;
+
+    public function __construct(
+        ConfigFactory $configFactory,
+        LoaderManager $loader,
+        string $sourceLanguage
+    )
+    {
+        $this->configFactory = $configFactory;
+        $this->loader = $loader;
+        $this->sourceLanguage = $sourceLanguage;
+    }
 
     /**
      * @Route("/", name="jms_translation_index", options = {"i18n" = false})

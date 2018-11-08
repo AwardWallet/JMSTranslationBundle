@@ -29,23 +29,30 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/api")
+ * @Route("/api", service="jms_translation.controller.api")
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
 class ApiController
 {
     /**
-     * @DI\Inject("jms_translation.config_factory")
      * @var ConfigFactory
      */
     private $configFactory;
 
     /**
-     * @DI\Inject("jms_translation.updater")
      * @var Updater
      */
     private $updater;
+
+    public function __construct(
+        ConfigFactory $configFactory,
+        Updater $updater
+    )
+    {
+        $this->configFactory = $configFactory;
+        $this->updater = $updater;
+    }
 
     /**
      * @Route("/configs/{config}/domains/{domain}/locales/{locale}/messages",

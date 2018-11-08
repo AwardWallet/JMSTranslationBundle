@@ -31,6 +31,8 @@
         <parameter key="jms_translation.updater.class">JMS\TranslationBundle\Translation\Updater</parameter>
         <parameter key="jms_translation.config_factory.class">JMS\TranslationBundle\Translation\ConfigFactory</parameter>
         <parameter key="jms_translation.file_source_factory.class">JMS\TranslationBundle\Translation\FileSourceFactory</parameter>
+        <parameter key="jms_translation.controller.translate.class">JMS\TranslationBundle\Controller\TranslateController</parameter>
+        <parameter key="jms_translation.controller.api.class">JMS\TranslationBundle\Controller\ApiController</parameter>
     </parameters>
 
     <services>
@@ -146,6 +148,17 @@
             <argument type="service" id="translator" />
             <argument>%kernel.debug%</argument>
             <tag name="twig.extension" />
+        </service>
+
+        <service id="jms_translation.controller.translate" class="%jms_translation.controller.translate.class%">
+            <argument type="service" id="jms_translation.config_factory" />
+            <argument type="service" id="jms_translation.loader_manager" />
+            <argument>%jms_translation.source_language%</argument>
+        </service>
+
+        <service id="jms_translation.controller.api" class="%jms_translation.controller.api.class%">
+            <argument type="service" id="jms_translation.config_factory" />
+            <argument type="service" id="jms_translation.updater" />
         </service>
     </services>
 </container>
