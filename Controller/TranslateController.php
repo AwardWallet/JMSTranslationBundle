@@ -50,7 +50,7 @@ class TranslateController
 
     /**
      * @Route("/", name="jms_translation_index", options = {"i18n" = false})
-     * @Template
+     * @Template("@JMSTranslation/Translate/index.html.twig")
      * @param string $config
      */
     public function indexAction()
