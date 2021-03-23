@@ -428,10 +428,6 @@ class FormExtractor implements FileVisitorInterface, LoggerAwareInterface, NodeV
         $ignore = $ignore || !$item->value instanceof Node\Scalar\String_ || $item->value->value === false;
 
         if (!$item->value instanceof Node\Scalar\String_ && !$item->value instanceof Node\Scalar\LNumber) {
-            if ($ignore) {
-                return;
-            }
-
             $message = sprintf('Unable to extract translation id for form label/title/placeholder from non-string values, but got "%s" in %s on line %d. Please refactor your code to pass a string, or add "/** @Ignore */".', get_class($item->value), $this->file, $item->value->getLine());
             if ($this->logger) {
                 $this->logger->error($message);
@@ -440,6 +436,10 @@ class FormExtractor implements FileVisitorInterface, LoggerAwareInterface, NodeV
             }
 
             throw new RuntimeException($message);
+        }
+
+        if ($ignore) {
+            return;
         }
 
         $source = $this->fileSourceFactory->create($this->file, $item->value->getLine());
