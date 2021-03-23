@@ -44,7 +44,7 @@ class XliffDumper implements DumperInterface
     /**
      * @var bool
      */
-    private $addDate = true;
+    private $addDate = false;
 
     /**
      * @var bool
