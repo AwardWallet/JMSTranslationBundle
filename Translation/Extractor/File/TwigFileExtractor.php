@@ -81,7 +81,21 @@ class TwigFileExtractor extends AbstractNodeVisitor implements FileVisitorInterf
                 $domain = $domainNode->getAttribute('value');
             }
 
+            if ($node->hasNode('key')) {
+                if (null !== ($keyNode = $node->getNode('key'))
+                    && $keyNode->hasAttribute('value') && null !== ($keyValue = $keyNode->getAttribute('value'))
+                ) {
+                    $desc = $id;
+                    $id = $keyValue;
+                }
+            }
+
             $message = new Message($id, $domain);
+
+            if (isset($desc)) {
+                $message->setDesc($desc);
+            }
+
             $message->addSource($this->fileSourceFactory->create($this->file, $node->getTemplateLine()));
             $this->catalogue->add($message);
         } elseif ($node instanceof FilterExpression) {
