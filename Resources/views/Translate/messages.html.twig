@@ -8,18 +8,22 @@
         </thead>
         <tbody>
             {% for id, message in messages %}
+                {% set note = null %}
+                {% if message is instanceof('\\JMS\\TranslationBundle\\Model\\Message\\XliffMessage') and message.notes is not empty %}
+                    {% set note = message.notes[0].text %}
+                {% endif %}
             <tr class="messageRow" id="row-{{ id }}">
                 <td>
                     <a class="jms-translation-anchor" id="{{ id }}" />
                     <p><abbr title="{{ id }}">{{ id|slice(0, 25) }}{% if id|length > 25 %}...{% endif %}</abbr></p>
                 </td>
                 <td>
-                    <textarea data-id="{{ id }}" class="span6"{% if isWriteable is same as(false) %} readonly="readonly"{% endif %}>{{ message.localeString }}</textarea></td>
+                    <textarea data-id="{{ id }}" class="span6 message"{% if isWriteable is same as(false) %} readonly="readonly"{% endif %}>{{ message.localeString }}</textarea>
+                    <div class="notice"></div>
+                </td>
                 <td>
-                    {% if message.meaning is not empty %}
-                        <h6>Meaning</h6>
-                        <p>{{ message.meaning }}</p>
-                    {% endif %}
+                    <h6>Note</h6>
+                    <textarea class="span6 note" rows="3"{% if isWriteable is sameas(false) %} readonly="readonly"{% endif %}>{{ note }}</textarea>
 
                     {% if alternativeMessages[id] is defined %}
                         <h6>Alternative Translations</h6>

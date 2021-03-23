@@ -109,10 +109,10 @@ function JMSTranslationManager(updateMessagePath, isWritable)
 
                 if (data == 'Translation was saved')
                 {
-                    $elem.parent().closest('td').prev('td').append(JMS.translation.ajax.savedMessageContent);
+                    $elem.closest('tr').find('.notice').append(JMS.translation.ajax.savedMessageContent);
                 } else
                 {
-                    $elem.parent().closest('td').prev('td').append(JMS.translation.ajax.unsavedMessageContent);
+                    $elem.closest('tr').find('.notice').append(JMS.translation.ajax.unsavedMessageContent);
                 }
             },
             savedMessageContent: '<span class="alert-message label success">Translation was saved.</span>',
@@ -124,7 +124,7 @@ function JMSTranslationManager(updateMessagePath, isWritable)
                 $elem.data('timeoutId', setTimeout(function ()
                 {
                     $elem.data('timeoutId', undefined);
-                    $parent.closest('td').prev('td').children('.alert-message').fadeOut(300, function ()
+                    $parent.closest('tr').find('.alert-message').fadeOut(300, function ()
                     {
                         var $message = $(this);
                         $message.remove();
@@ -134,11 +134,13 @@ function JMSTranslationManager(updateMessagePath, isWritable)
         },
         blur: function(event, JMS)
         {
-            var $elem = $(event.target);
-            $.ajax(JMS.updateMessagePath + '?id=' + encodeURIComponent($elem.data('id')), {
+            var $row = $(event.target).closest('tr');
+            var $note = $row.find('.note');
+            var $message = $row.find('.message');
+            $.ajax(JMS.updateMessagePath + '?id=' + encodeURIComponent($message.data('id')), {
                 type: JMS.translation.ajax.type,
                 headers: JMS.translation.ajax.headers,
-                data: {'_method': JMS.translation.ajax.dataMethod, 'message': $elem.val()},
+                data: {'_method': JMS.translation.ajax.dataMethod, 'message': $message.val(), 'note': $note.val()},
                 beforeSend: function (data)
                 {
                     JMS.translation.ajax.beforeSend(data, event, JMS);
@@ -169,7 +171,7 @@ function JMSTranslationManager(updateMessagePath, isWritable)
                 $elem.data('timeoutId', undefined);
             }
 
-            $elem.parent().children('.alert-message').remove();
+            $elem.closest('tr').find('.alert-message').remove();
         }
     };
 

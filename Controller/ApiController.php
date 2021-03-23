@@ -88,7 +88,8 @@ class ApiController
             $domain,
             $locale,
             $id,
-            $request->request->get('message')
+            $request->request->get('message'),
+            $request->request->get('note')
         );
 
         return new Response('Translation was saved');

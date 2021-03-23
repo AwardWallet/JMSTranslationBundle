@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace JMS\TranslationBundle\Translation;
 
 use JMS\TranslationBundle\Exception\RuntimeException;
+use JMS\TranslationBundle\Model\Message\XliffMessage;
 use JMS\TranslationBundle\Model\MessageCatalogue;
 use JMS\TranslationBundle\Translation\Comparison\CatalogueComparator;
 use JMS\TranslationBundle\Translation\Comparison\ChangeSet;
@@ -111,14 +112,19 @@ class Updater
      * @param string $locale
      * @param string $id
      * @param string $trans
+     * @param string $note
      */
-    public function updateTranslation($file, $format, $domain, $locale, $id, $trans)
+    public function updateTranslation($file, $format, $domain, $locale, $id, $trans, $note = null)
     {
         $catalogue = $this->loader->loadFile($file, $format, $locale, $domain);
-        $catalogue
-            ->get($id, $domain)
+        $message = $catalogue->get($id, $domain);
+        $message
             ->setLocaleString($trans)
             ->setNew(false);
+
+        if (isset($note) && $message instanceof XliffMessage){
+            $message->setNotes([['text' => $note]]);
+        }
 
         $this->writer->write($catalogue, $domain, $file, $format);
     }
