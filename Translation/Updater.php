@@ -122,7 +122,7 @@ class Updater
             ->setLocaleString($trans)
             ->setNew(false);
 
-        if (isset($note) && $message instanceof XliffMessage){
+        if (isset($note) && ('' !== $note) && $message instanceof XliffMessage){
             $message->setNotes([['text' => $note]]);
         }
 
