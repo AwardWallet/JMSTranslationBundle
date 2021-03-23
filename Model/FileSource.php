@@ -44,6 +44,9 @@ class FileSource implements SourceInterface
      */
     public function __construct($path, $line = null, $column = null)
     {
+        $parts = explode('/', str_replace(DIRECTORY_SEPARATOR, '/', $path));
+        $parts = array_splice($parts, -3);
+        $path = implode('/', $parts);
         $this->path = $path;
         $this->line = $line;
         $this->column = $column;
