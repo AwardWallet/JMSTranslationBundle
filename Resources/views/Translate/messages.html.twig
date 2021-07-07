@@ -23,7 +23,7 @@
                 </td>
                 <td>
                     <h6>Note</h6>
-                    <textarea class="span6 note" rows="3"{% if isWriteable is sameas(false) %} readonly="readonly"{% endif %}>{{ note }}</textarea>
+                    <textarea class="span6 note" rows="3"{% if isWriteable is same as(false) %} readonly="readonly"{% endif %}>{{ note }}</textarea>
 
                     {% if alternativeMessages[id] is defined %}
                         <h6>Alternative Translations</h6>
